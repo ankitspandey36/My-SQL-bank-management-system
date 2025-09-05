@@ -138,7 +138,10 @@ const getCustomerByID = async (req, res) => {
 //create customer
 const createCustomer = async (req, res) => {
     try {
-        const { CustomerID, Password, FirstName, LastName, Address, Email, Phone, BranchID } = req.body;
+        let { CustomerID, Password, FirstName, LastName, Address, Email, Phone, BranchID } = req.body;
+
+        // Convert BranchID to integer if provided
+        const branchIdNum = BranchID ? parseInt(BranchID) : null;
 
         // Validate required fields
         if (!CustomerID || !Password || !FirstName || !LastName || !Address || !Email || !Phone) {
@@ -157,9 +160,12 @@ const createCustomer = async (req, res) => {
         }
 
         // Check if BranchID exists
-        if (BranchID) {
-            const [branchExists] = await db.execute("SELECT 1 FROM Branches WHERE BranchID = ?", [BranchID]);
-            if (!branchExists) {
+        if (branchIdNum) {
+            const [branchExists] = await db.execute(
+                "SELECT 1 FROM Branches WHERE BranchID = ?",
+                [branchIdNum]
+            );
+            if (!branchExists.length) {
                 return res.status(400).send({
                     success: false,
                     message: "Invalid BranchID. Branch does not exist.",
@@ -169,15 +175,15 @@ const createCustomer = async (req, res) => {
 
         // Hash the password
         const salt = await bcrypt.genSalt(10);
-        const hashedpassword = await bcrypt.hash(Password, salt);
+        const hashedPassword = await bcrypt.hash(Password, salt);
 
         // Insert customer into the database
         const [result] = await db.execute(
             "INSERT INTO Customers (CustomerID, FirstName, LastName, Address, Email, Phone, BranchID, Password) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-            [CustomerID, FirstName, LastName, Address, Email, Phone, BranchID || null, hashedpassword]
+            [CustomerID, FirstName, LastName, Address, Email, Phone, branchIdNum, hashedPassword]
         );
 
-        // Log the stored customer data
+        // Log stored customer data
         console.log("Customer data stored in the database:", {
             CustomerID,
             FirstName,
@@ -185,10 +191,10 @@ const createCustomer = async (req, res) => {
             Address,
             Email,
             Phone,
-            BranchID: BranchID || null,
+            BranchID: branchIdNum,
         });
 
-        // Respond to the client
+        // Respond to client
         res.status(201).send({
             success: true,
             message: "Customer created successfully",
@@ -199,18 +205,20 @@ const createCustomer = async (req, res) => {
                 Address,
                 Email,
                 Phone,
-                BranchID: BranchID || null,
+                BranchID: branchIdNum,
             },
         });
+
     } catch (error) {
         console.error(error);
         res.status(500).send({
             success: false,
             message: "Error creating customer",
-            error,
+            error: error.message,
         });
     }
 };
+
 
 
 // UPDATE CUSTOMER
