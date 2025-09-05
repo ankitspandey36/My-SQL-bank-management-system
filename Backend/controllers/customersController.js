@@ -140,22 +140,23 @@ const createCustomer = async (req, res) => {
     try {
         let { CustomerID, Password, FirstName, LastName, Address, Email, Phone, BranchID } = req.body;
 
-        // Convert BranchID to integer if provided
+        // Convert CustomerID and BranchID to integer
+        const customerIdNum = parseInt(CustomerID);
         const branchIdNum = BranchID ? parseInt(BranchID) : null;
 
-        // Validate required fields
-        if (!CustomerID || !Password || !FirstName || !LastName || !Address || !Email || !Phone) {
+        // Validate numeric CustomerID
+        if (isNaN(customerIdNum)) {
             return res.status(400).send({
                 success: false,
-                message: "All fields except BranchID are required",
+                message: "CustomerID must be a valid number",
             });
         }
 
-        // Ensure CustomerID is a string with max length 20 characters
-        if (CustomerID.length > 20) {
+        // Validate required fields
+        if (!Password || !FirstName || !LastName || !Address || !Email || !Phone) {
             return res.status(400).send({
                 success: false,
-                message: "CustomerID must be 20 characters or less.",
+                message: "All fields except BranchID are required",
             });
         }
 
@@ -180,12 +181,11 @@ const createCustomer = async (req, res) => {
         // Insert customer into the database
         const [result] = await db.execute(
             "INSERT INTO Customers (CustomerID, FirstName, LastName, Address, Email, Phone, BranchID, Password) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-            [CustomerID, FirstName, LastName, Address, Email, Phone, branchIdNum, hashedPassword]
+            [customerIdNum, FirstName, LastName, Address, Email, Phone, branchIdNum, hashedPassword]
         );
 
-        // Log stored customer data
         console.log("Customer data stored in the database:", {
-            CustomerID,
+            CustomerID: customerIdNum,
             FirstName,
             LastName,
             Address,
@@ -194,12 +194,11 @@ const createCustomer = async (req, res) => {
             BranchID: branchIdNum,
         });
 
-        // Respond to client
         res.status(201).send({
             success: true,
             message: "Customer created successfully",
             data: {
-                CustomerID,
+                CustomerID: customerIdNum,
                 FirstName,
                 LastName,
                 Address,
@@ -218,6 +217,7 @@ const createCustomer = async (req, res) => {
         });
     }
 };
+
 
 
 
