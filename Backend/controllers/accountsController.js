@@ -313,7 +313,8 @@ const createAccount = async (req, res) => {
         }
 
         // Generate a new 14-digit AccountID as number
-        const newAccountID = Math.floor(10000000000000 + Math.random() * 90000000000000);
+        const newAccountID = Math.floor(1 + Math.random() * 2147483647);
+
 
         // Insert a new account
         const [result] = await db.execute(
