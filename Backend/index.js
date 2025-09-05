@@ -15,7 +15,9 @@ dotenv.config();
 app.use(morgan('dev')); // Logging middleware
 app.use(cors(
   {
-    origin:"https://my-sql-bank-management-system.vercel.app"
+    origin: "https://my-sql-bank-management-system.vercel.app",
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
   }
 )); // Use CORS middleware
 
