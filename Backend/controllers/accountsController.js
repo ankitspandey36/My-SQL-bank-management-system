@@ -275,10 +275,13 @@ const generateAccountID = () => {
 // Create Account
 const createAccount = async (req, res) => {
     try {
-        const { CustomerID, AccountType } = req.body;
+        let { CustomerID, AccountType } = req.body;
+
+        // Convert CustomerID to number
+        const customerIdNum = parseInt(CustomerID);
 
         // Validate required fields
-        if (!CustomerID || !AccountType) {
+        if (!customerIdNum || !AccountType) {
             return res.status(400).send({
                 success: false,
                 message: "All fields are required: CustomerID, AccountType",
@@ -286,30 +289,36 @@ const createAccount = async (req, res) => {
         }
 
         // Check if CustomerID exists in the Customers table
-        const [customer] = await db.execute('SELECT * FROM Customers WHERE CustomerID = ?', [CustomerID]);
+        const [customer] = await db.execute(
+            'SELECT * FROM Customers WHERE CustomerID = ?',
+            [customerIdNum]
+        );
         if (!customer || customer.length === 0) {
             return res.status(404).send({
                 success: false,
-                message: `Customer with ID ${CustomerID} does not exist.`,
+                message: `Customer with ID ${customerIdNum} does not exist.`,
             });
         }
 
-        // Check if the customer already has an account (if account already exists)
-        const [existingAccount] = await db.execute('SELECT * FROM Accounts WHERE CustomerID = ?', [CustomerID]);
+        // Check if the customer already has an account
+        const [existingAccount] = await db.execute(
+            'SELECT * FROM Accounts WHERE CustomerID = ?',
+            [customerIdNum]
+        );
         if (existingAccount && existingAccount.length > 0) {
             return res.status(400).send({
                 success: false,
-                message: `Customer with ID ${CustomerID} already has an account.`,
+                message: `Customer with ID ${customerIdNum} already has an account.`,
             });
         }
 
-        // Generate a new 14-digit AccountID
-        const newAccountID = generateAccountID();
+        // Generate a new 14-digit AccountID as number
+        const newAccountID = Math.floor(10000000000000 + Math.random() * 90000000000000);
 
-        // Insert a new account with the generated AccountID, provided AccountType, and default balance 0
+        // Insert a new account
         const [result] = await db.execute(
             'INSERT INTO Accounts (AccountID, CustomerID, AccountType, Balance) VALUES (?, ?, ?, ?)',
-            [newAccountID, CustomerID, AccountType, 0]  // Default balance set to 0
+            [newAccountID, customerIdNum, AccountType, 0] // Balance default 0
         );
 
         // Fetch the newly created account details
@@ -321,12 +330,13 @@ const createAccount = async (req, res) => {
             [newAccountID]
         );
 
-        // Respond with combined customer and account details
+        // Respond with numeric IDs
         res.status(201).send({
             success: true,
             message: "Account created successfully!",
-            customerAndAccountDetails: accountDetails[0],  // Return customer and account details
+            customerAndAccountDetails: accountDetails[0],
         });
+
     } catch (error) {
         console.error(error);
         res.status(500).send({
@@ -336,6 +346,7 @@ const createAccount = async (req, res) => {
         });
     }
 };
+
 
 
   
