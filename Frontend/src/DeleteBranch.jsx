@@ -17,7 +17,7 @@ const DeleteBranch = () => {
 
     try {
       setLoading(true);
-      const response = await axios.delete(`http://localhost:5010/api/v1/branches/delete/${branchID}`);
+      const response = await axios.delete(`https://my-sql-bank-management-system-01.onrender.com/api/v1/branches/delete/${branchID}`);
       alert(response.data.message);
       setBranchID('');
       navigate('/admindashboard');

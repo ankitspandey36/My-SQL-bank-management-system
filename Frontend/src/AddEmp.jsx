@@ -24,7 +24,7 @@ const AddEmployee = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:5010/api/v1/employees/create",
+        "https://my-sql-bank-management-system-01.onrender.com/api/v1/employees/create",
         employeeData
       );
       alert(response.data.message);

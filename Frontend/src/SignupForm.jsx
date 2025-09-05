@@ -14,8 +14,8 @@ const SignupForm = () => {
     setLoading(true);
     setErrorMessage('');
     try {
-      await axios.post('http://localhost:5010/api/v1/customers/create', data);
-      await axios.post('http://localhost:5010/api/v1/accounts/create', {
+      await axios.post('https://my-sql-bank-management-system-01.onrender.com/api/v1/customers/create', data);
+      await axios.post('https://my-sql-bank-management-system-01.onrender.com/api/v1/accounts/create', {
         CustomerID: data.CustomerID,
         AccountType: data.AccountType,
       });

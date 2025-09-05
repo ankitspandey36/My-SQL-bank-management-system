@@ -13,7 +13,11 @@ dotenv.config();
 
 // Middleware
 app.use(morgan('dev')); // Logging middleware
-app.use(cors()); // Use CORS middleware
+app.use(cors(
+  {
+    origin:"https://my-sql-bank-management-system.vercel.app"
+  }
+)); // Use CORS middleware
 
 // Routes
 app.use('/api/v1/branches', require('./routes/branchesRoutes'));

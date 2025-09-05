@@ -13,7 +13,7 @@ const AdminLogin = () => {
     setLoading(true);
     setErrorMessage('');
     try {
-      const response = await axios.post("http://localhost:5010/api/v1/admin/login", data);
+      const response = await axios.post("https://my-sql-bank-management-system-01.onrender.com/api/v1/admin/login", data);
       if (response.data.success) {
         alert("Login successful!");
         navigate("/admindashboard");

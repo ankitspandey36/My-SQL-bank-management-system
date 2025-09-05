@@ -15,9 +15,9 @@ const AdminDashboard = () => {
       try {
         setLoading(true);
         const [branchesRes, employeesRes, transactionsRes] = await Promise.all([
-          axios.get("http://localhost:5010/api/v1/branches/getall"),
-          axios.get("http://localhost:5010/api/v1/employees/getall"),
-          axios.get("http://localhost:5010/api/v1/transactions/getall")
+          axios.get("https://my-sql-bank-management-system-01.onrender.com/api/v1/branches/getall"),
+          axios.get("https://my-sql-bank-management-system-01.onrender.com/api/v1/employees/getall"),
+          axios.get("https://my-sql-bank-management-system-01.onrender.com/api/v1/transactions/getall")
         ]);
 
         if (branchesRes.data.success) setBranchCount(branchesRes.data.totalBranches);

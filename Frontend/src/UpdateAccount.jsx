@@ -14,7 +14,7 @@ const UpdateAccount = () => {
   useEffect(() => {
     if (CustomerID) {
       setLoading(true);
-      axios.get(`http://localhost:5010/api/v1/customers/get/${CustomerID}`)
+      axios.get(`https://my-sql-bank-management-system-01.onrender.com/api/v1/customers/get/${CustomerID}`)
         .then((response) => {
           const customer = response.data.data;
           setInitialData(customer);
@@ -35,7 +35,7 @@ const UpdateAccount = () => {
     setLoading(true);
     try {
       const response = await axios.put(
-        `http://localhost:5010/api/v1/customers/update/${CustomerID}`,
+        `https://my-sql-bank-management-system-01.onrender.com/api/v1/customers/update/${CustomerID}`,
         data
       );
       alert("Account updated successfully!");

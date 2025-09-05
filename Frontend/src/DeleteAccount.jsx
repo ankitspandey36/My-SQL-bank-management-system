@@ -20,7 +20,7 @@ const DeleteAccount = () => {
     try {
       setLoading(true);
       const deleteResponse = await axios.delete(
-        `http://localhost:5010/api/v1/customers/delete/${data.CustomerID}`
+        `https://my-sql-bank-management-system-01.onrender.com/api/v1/customers/delete/${data.CustomerID}`
       );
       alert(deleteResponse.data.message);
       reset();

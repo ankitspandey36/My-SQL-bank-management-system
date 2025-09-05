@@ -14,7 +14,7 @@ const LoginForm = () => {
     setLoading(true);
     setErrorMessage('');
     try {
-      const response = await axios.post('http://localhost:5010/api/v1/auth/login', data);
+      const response = await axios.post('https://my-sql-bank-management-system-01.onrender.com/api/v1/auth/login', data);
 
       if (response.data.success) {
         const { token, customer } = response.data;

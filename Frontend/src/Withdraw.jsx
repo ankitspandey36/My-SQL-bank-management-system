@@ -21,7 +21,7 @@ const Withdraw = () => {
     setErrorMessage('');
     try {
       const response = await axios.post(
-        "http://localhost:5010/api/v1/accountcards/withdrawl",
+        "https://my-sql-bank-management-system-01.onrender.com/api/v1/accountcards/withdrawl",
         data
       );
       alert(response.data.message);

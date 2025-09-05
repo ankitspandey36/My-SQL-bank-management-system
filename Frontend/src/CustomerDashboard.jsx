@@ -26,7 +26,7 @@ const CustomerDashboard = () => {
 
     const fetchCustomerData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5010/api/v1/customers/get/${CustomerID}`);
+        const response = await axios.get(`https://my-sql-bank-management-system-01.onrender.com/api/v1/customers/get/${CustomerID}`);
         if (response.data.success) {
           setCustomer(response.data.data);
         } else {

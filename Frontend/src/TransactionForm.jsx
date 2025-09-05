@@ -16,7 +16,7 @@ const CreateTransaction = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5010/api/v1/transactions/create",
+        "https://my-sql-bank-management-system-01.onrender.com/api/v1/transactions/create",
         data
       );
       alert("Transaction successful!");

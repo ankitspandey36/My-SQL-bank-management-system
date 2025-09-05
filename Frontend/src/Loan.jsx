@@ -14,7 +14,7 @@ const Loan = () => {
     setLoading(true);
     setErrorMessage('');
     try {
-      const response = await axios.post('http://localhost:5010/api/v1/loans/create', data);
+      const response = await axios.post('https://my-sql-bank-management-system-01.onrender.com/api/v1/loans/create', data);
 
       if (response.data.success) {
         alert('Loan application submitted successfully!');

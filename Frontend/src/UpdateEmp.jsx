@@ -15,7 +15,7 @@ const UpdateEmployee = () => {
     setErrorMessage('');
     try {
       const response = await axios.put(
-        `http://localhost:5010/api/v1/employees/update/${data.EmployeeID}`,
+        `https://my-sql-bank-management-system-01.onrender.com/api/v1/employees/update/${data.EmployeeID}`,
         data
       );
       alert(response.data.message);

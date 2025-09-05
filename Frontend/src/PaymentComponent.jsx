@@ -14,7 +14,7 @@ const PaymentComponent = () => {
     if (!customerID) return
     setLoading(true)
     try {
-      const response = await axios.get(`http://localhost:5010/api/v1/payments/get/${customerID}`)
+      const response = await axios.get(`https://my-sql-bank-management-system-01.onrender.com/api/v1/payments/get/${customerID}`)
       setPayments(response.data.payments || [])
     } catch (error) {
       console.error('Error fetching payments:', error)
@@ -32,7 +32,7 @@ const PaymentComponent = () => {
     setLoading(true)
     setError('')
     try {
-      await axios.post('http://localhost:5010/api/v1/payments/create', data)
+      await axios.post('https://my-sql-bank-management-system-01.onrender.com/api/v1/payments/create', data)
       alert('Payment Successful!')
       reset()
       fetchPayments()

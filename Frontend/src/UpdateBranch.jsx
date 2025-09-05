@@ -23,7 +23,7 @@ const UpdateBranch = () => {
     
     setLoading(true);
     try {
-      const response = await axios.put(`http://localhost:5010/api/v1/branches/update/${branchID}`, formData);
+      const response = await axios.put(`https://my-sql-bank-management-system-01.onrender.com/api/v1/branches/update/${branchID}`, formData);
       alert(response.data.message);
       setBranchID('');
       setFormData({ BranchName: '', Location: '', Phone: '' });

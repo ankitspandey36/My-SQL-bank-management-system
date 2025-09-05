@@ -13,7 +13,7 @@ const ShowEmployees = () => {
   const fetchAllEmployees = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('http://localhost:5010/api/v1/employees/getall');
+      const response = await axios.get('https://my-sql-bank-management-system-01.onrender.com/api/v1/employees/getall');
       setEmployees(response.data.data || []);
     } catch (err) {
       setError(err.response?.data?.message || 'Error fetching employees.');
@@ -40,9 +40,9 @@ const ShowEmployees = () => {
 
     let url = '';
     if (data.searchType === 'employee') {
-      url = `http://localhost:5010/api/v1/employees/getbyeid/${data.searchValue}`;
+      url = `https://my-sql-bank-management-system-01.onrender.com/api/v1/employees/getbyeid/${data.searchValue}`;
     } else if (data.searchType === 'branch') {
-      url = `http://localhost:5010/api/v1/employees/getbybid/${data.searchValue}`;
+      url = `https://my-sql-bank-management-system-01.onrender.com/api/v1/employees/getbybid/${data.searchValue}`;
     }
 
     setLoading(true);
